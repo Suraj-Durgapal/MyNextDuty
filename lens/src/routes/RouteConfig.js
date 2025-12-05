@@ -1,5 +1,5 @@
-import Root from "../layout/Root";
-import Loader from "../components/common/Loader";
+import { Root } from "../layout/Root";
+import { Loader } from "../components/common/Loader";
 export const PrivateRouteConfig = [
   {
     key: "Root",
@@ -12,7 +12,7 @@ export const PrivateRouteConfig = [
         component: Loader,
       },
     ],
-  }
+  },
 ];
 
 export const PublicRouteConfig = [];
