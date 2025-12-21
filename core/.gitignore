@@ -9,7 +9,9 @@ build/
 !**/src/test/**/build/
 docker-compose.yml
 /docker-compose.yml
-
+/db/
+/db
+db
 ### STS ###
 .apt_generated
 .classpath
