@@ -46,18 +46,22 @@ public class SuccessResponseDto<T> implements ResponseDto<T> {
     this.data = data;
   }
 
-  SuccessResponseDto(int status, String message) {
+  public SuccessResponseDto(int status, String message) {
     this.status = status;
     this.message = message;
   }
 
-  SuccessResponseDto(String message, T data) {
+  public SuccessResponseDto(String message, T data) {
     this.message = message;
     this.data = data;
   }
 
-  SuccessResponseDto(int status, T data) {
+  public SuccessResponseDto(int status, T data) {
     this.status = status;
+    this.data = data;
+  }
+
+  public SuccessResponseDto(T data) {
     this.data = data;
   }
 }

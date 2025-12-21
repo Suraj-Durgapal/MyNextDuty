@@ -53,27 +53,27 @@ public class ErrorResponseDto<T> implements ResponseDto<T> {
     this.data = data;
   }
 
-  ErrorResponseDto(int status, String message) {
+  public ErrorResponseDto(int status, String message) {
     this.status = status;
     this.message = message;
     this.timestamp = new Date().getTime();
   }
 
-  ErrorResponseDto(int status, String message, String error) {
+  public ErrorResponseDto(int status, String message, String error) {
     this.status = status;
     this.message = message;
     this.timestamp = new Date().getTime();
     this.error = error;
   }
 
-  ErrorResponseDto(String message, T data, String error) {
+  public ErrorResponseDto(String message, T data, String error) {
     this.message = message;
     this.data = data;
     this.timestamp = new Date().getTime();
     this.error = error;
   }
 
-  ErrorResponseDto(int status, T data, String error) {
+  public ErrorResponseDto(int status, T data, String error) {
     this.status = status;
     this.data = data;
     this.timestamp = new Date().getTime();
