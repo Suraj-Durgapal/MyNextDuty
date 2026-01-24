@@ -5,7 +5,6 @@ import com.mynextduty.core.dto.ResponseDto;
 import com.mynextduty.core.dto.SuccessResponseDto;
 import com.mynextduty.core.dto.auth.AuthRequestDto;
 import com.mynextduty.core.dto.auth.AuthResponseDto;
-import com.mynextduty.core.dto.auth.RegisterRequestDto;
 import com.mynextduty.core.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,12 +28,6 @@ public class AuthController {
     return new SuccessResponseDto<>(authService.publicKey());
   }
 
-  @PostMapping("/register")
-  public ResponseDto<AuthResponseDto> register(
-      @Valid @RequestBody RegisterRequestDto registerDto, HttpServletResponse response) {
-    return new SuccessResponseDto<>(authService.register(registerDto, response));
-  }
-
   @PostMapping("/login")
   public ResponseDto<AuthResponseDto> login(
       @Valid @RequestBody AuthRequestDto loginDto, HttpServletResponse response) {
@@ -42,8 +35,8 @@ public class AuthController {
   }
 
   @GetMapping("/refresh")
-  public ResponseDto<AuthResponseDto> refreshToken(HttpServletRequest request) {
-    return new SuccessResponseDto<>(authService.refreshToken(request));
+  public ResponseDto<AuthResponseDto> refreshToken(HttpServletRequest request, HttpServletResponse httpServletResponse) {
+    return new SuccessResponseDto<>(authService.refreshToken(request,httpServletResponse));
   }
 
   @PostMapping("/logout")

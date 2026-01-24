@@ -2,12 +2,10 @@ package com.mynextduty.core.service.impl;
 
 import com.mynextduty.core.config.security.JwtUtil;
 import com.mynextduty.core.config.security.PassDecryptor;
-import com.mynextduty.core.config.security.PassEncoder;
 import com.mynextduty.core.dto.GlobalMessageDTO;
 import com.mynextduty.core.dto.auth.AuthRequestDto;
 import com.mynextduty.core.dto.auth.AuthResponseDto;
 import com.mynextduty.core.dto.auth.CustomUserDetails;
-import com.mynextduty.core.dto.auth.RegisterRequestDto;
 import com.mynextduty.core.entity.User;
 import com.mynextduty.core.exception.GenericApplicationException;
 import com.mynextduty.core.exception.InvalidCredentialsException;
@@ -48,7 +46,6 @@ public class AuthServiceImpl implements AuthService {
   private final AuthenticationManager authenticationManager;
   private final AuthRepository authRepository;
   private final UserRepository userRepository;
-  private final PassEncoder passEncoder;
   private final PassDecryptor passDecryptor;
   private final JwtUtil jwtUtil;
   private final CustomUserDetailsService customUserDetailsService;
@@ -67,41 +64,9 @@ public class AuthServiceImpl implements AuthService {
       throw new KeyLoadingException("Failed to read public key", e);
     } catch (Exception e) {
       log.error("Unexpected error while loading public key", e);
-      throw new GenericApplicationException("Unexpected error loading public key", e.getCause());
+      throw new GenericApplicationException(
+          "Unexpected error loading public key", e.getCause(), 500);
     }
-  }
-
-  @Override
-  @Transactional
-  public AuthResponseDto register(
-      RegisterRequestDto registerRequestDto, HttpServletResponse httpServletResponse) {
-    if (authRepository.getByEmail(registerRequestDto.getEmail()).isPresent()) {
-      throw new GenericApplicationException("User already exists.");
-    }
-    User user =
-        User.builder()
-            .email(registerRequestDto.getEmail())
-            .password(registerRequestDto.getPassword())
-            .firstName(registerRequestDto.getFirstName())
-            .lastName(registerRequestDto.getLastName())
-            .isVerified(false)
-            .build();
-    authRepository.save(user);
-    CustomUserDetails customUserDetails =
-        CustomUserDetails.builder()
-            .username(registerRequestDto.getEmail())
-            .password(registerRequestDto.getPassword())
-            .enabled(true)
-            .build();
-    log.info("New user registered with email: {}", registerRequestDto.getEmail());
-    String accessToken = jwtUtil.generateToken(customUserDetails);
-    String refreshToken = jwtUtil.generateRefreshToken(customUserDetails);
-    setRefreshTokenCookie(httpServletResponse, refreshToken);
-    return AuthResponseDto.builder()
-        .email(registerRequestDto.getEmail())
-        .accessToken(accessToken)
-        .refreshToken(refreshToken)
-        .build();
   }
 
   @Override
@@ -141,7 +106,8 @@ public class AuthServiceImpl implements AuthService {
   }
 
   @Override
-  public AuthResponseDto refreshToken(HttpServletRequest request) {
+  public AuthResponseDto refreshToken(
+      HttpServletRequest request, HttpServletResponse httpServletResponse) {
     String oldRefreshToken = null;
     if (request.getCookies() != null) {
       for (Cookie cookie : request.getCookies()) {
@@ -166,6 +132,7 @@ public class AuthServiceImpl implements AuthService {
           (CustomUserDetails) customUserDetailsService.loadUserByUsername(email);
       String newAccessToken = jwtUtil.generateToken(userDetails);
       String newRefreshToken = jwtUtil.generateRefreshToken(userDetails);
+      setRefreshTokenCookie(httpServletResponse, newRefreshToken);
       return AuthResponseDto.builder()
           .email(email)
           .accessToken(newAccessToken)
@@ -175,7 +142,7 @@ public class AuthServiceImpl implements AuthService {
       blacklistToken.blackListRefreshToken(oldRefreshToken);
       throw e;
     } catch (Exception ex) {
-      throw new GenericApplicationException("Unable to refresh token", ex);
+      throw new GenericApplicationException("Unable to refresh token", ex, 500);
     }
   }
 

@@ -18,13 +18,13 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
 
   hikari:
-    pool-name: CoreHikariPool
+    pool-name: MyNextDutyCoreHikariPool
     maximum-pool-size: 15
     minimum-idle: 5
     idle-timeout: 30000
@@ -38,12 +38,14 @@ logging:
     org.springframework.security: DEBUG
 
 core:
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    username: ${REDIS_USERNAME:default}
+    password: ${REDIS_PASSWORD:}
+    index: ${REDIS_INDEX:0}
+    timeout: ${REDIS_TIMEOUT:400000}
   jwt:
     secret: ${JWT_SECRET:}
-    expiration: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
     refresh:
-      expiration: ${JWT_REFRESH_EXPIRATION:259200000} # 3 days in milliseconds
-
-
-
-
+      expiration: ${JWT_REFRESH_EXPIRATION:259200}

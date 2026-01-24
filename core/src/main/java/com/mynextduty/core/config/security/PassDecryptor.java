@@ -45,7 +45,7 @@ public class PassDecryptor {
       return new String(decryptedBytes, StandardCharsets.UTF_8);
     } catch (Exception e) {
       log.error("Failed to decrypt password", e);
-      throw new GenericApplicationException("Failed to decrypt password", e.getCause());
+      throw new GenericApplicationException("Failed to decrypt password",400);
     }
   }
 }

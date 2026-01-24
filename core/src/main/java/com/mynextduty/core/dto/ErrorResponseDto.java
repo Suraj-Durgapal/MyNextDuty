@@ -1,21 +1,25 @@
 package com.mynextduty.core.dto;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Builder
+@JsonInclude(NON_NULL)
 public class ErrorResponseDto<T> implements ResponseDto<T> {
   private Long timestamp;
   private String error;
   private String message;
   private Integer status;
   private T data;
+  private String path;
 
   @Override
   public String getMessage() {
@@ -45,32 +49,5 @@ public class ErrorResponseDto<T> implements ResponseDto<T> {
   @Override
   public void setData(T data) {
     this.data = data;
-  }
-
-  public ErrorResponseDto(int status, String message) {
-    this.status = status;
-    this.message = message;
-    this.timestamp = new Date().getTime();
-  }
-
-  public ErrorResponseDto(int status, String message, String error) {
-    this.status = status;
-    this.message = message;
-    this.timestamp = new Date().getTime();
-    this.error = error;
-  }
-
-  public ErrorResponseDto(String message, T data, String error) {
-    this.message = message;
-    this.data = data;
-    this.timestamp = new Date().getTime();
-    this.error = error;
-  }
-
-  public ErrorResponseDto(int status, T data, String error) {
-    this.status = status;
-    this.data = data;
-    this.timestamp = new Date().getTime();
-    this.error = error;
   }
 }

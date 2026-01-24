@@ -1,14 +1,18 @@
 package com.mynextduty.core.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Builder
+@JsonInclude(NON_NULL)
 public class SuccessResponseDto<T> implements ResponseDto<T> {
   private String message = "Request processed successfully.";
   private Integer status = 200;
@@ -41,21 +45,6 @@ public class SuccessResponseDto<T> implements ResponseDto<T> {
 
   @Override
   public void setData(T data) {
-    this.data = data;
-  }
-
-  public SuccessResponseDto(int status, String message) {
-    this.status = status;
-    this.message = message;
-  }
-
-  public SuccessResponseDto(String message, T data) {
-    this.message = message;
-    this.data = data;
-  }
-
-  public SuccessResponseDto(int status, T data) {
-    this.status = status;
     this.data = data;
   }
 

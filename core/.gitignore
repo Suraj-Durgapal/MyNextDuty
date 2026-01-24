@@ -9,6 +9,8 @@ build/
 !**/src/test/**/build/
 docker-compose.yml
 /docker-compose.yml
+application.yml
+application.yaml
 /db/
 /db
 db
@@ -42,4 +44,5 @@ out/
 
 ### VS Code ###
 .vscode/
+*.pem
 

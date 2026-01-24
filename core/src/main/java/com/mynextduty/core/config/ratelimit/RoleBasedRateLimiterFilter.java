@@ -39,7 +39,7 @@ public class RoleBasedRateLimiterFilter extends OncePerRequestFilter {
    * @param request HttpServletRequest
    * @param response HttpServletResponse
    * @param filterChain FilterChain
-   * @throws jakarta.servlet.ServletException ServletException
+   * @throws ServletException ServletException
    * @throws IOException IOException
    */
   @Override
@@ -106,9 +106,9 @@ public class RoleBasedRateLimiterFilter extends OncePerRequestFilter {
     response.setHeader("X-Rate-Limit-Retry-After", String.valueOf(properties.getRefillDuration()));
     Map<String, Object> errorResponse =
         Map.of(
-            "status", HttpStatus.TOO_MANY_REQUESTS.value(),
-            "code", "TOO_MANY_REQUESTS",
-            "message", "Rate limit exceeded. Please try again later.",
+            "status", "TOO_MANY_REQUESTS",
+            "code", HttpStatus.TOO_MANY_REQUESTS.value(),
+            "message", HttpStatus.TOO_MANY_REQUESTS.getReasonPhrase(),
             "retryAfterSeconds", properties.getRefillDuration(),
             "timestamp", System.currentTimeMillis());
     objectMapper.writeValue(response.getOutputStream(), errorResponse);
