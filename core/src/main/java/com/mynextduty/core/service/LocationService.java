@@ -9,5 +9,5 @@ public interface LocationService {
 
   SuccessResponseDto<UserResponseDto> updateUserLocation(Long userId, UpdateLocationRequestDto req);
 
-  List<UserResponseDto> getNearByUsers(Long userId);
+  SuccessResponseDto<List<UserResponseDto>> getNearByUsers(Long userId);
 }

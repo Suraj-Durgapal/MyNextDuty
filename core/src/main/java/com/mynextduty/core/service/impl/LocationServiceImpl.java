@@ -53,7 +53,7 @@ public class LocationServiceImpl implements LocationService {
 
   @Override
   @Transactional
-  public List<UserResponseDto> getNearByUsers(Long userId) {
+  public SuccessResponseDto<List<UserResponseDto>> getNearByUsers(Long userId) {
     if (userId.equals(currentUserService.getCurrentUserId())) {
       log.error("User not found with userId: {}", userId);
       throw new UserNotFoundException("User not found.");
@@ -61,7 +61,13 @@ public class LocationServiceImpl implements LocationService {
     double radiusMeters = 5_000; // 5KM
     List<NearbyUserLocation> nearbyLocations =
         userLocationRepository.findNearbyUserLocations(userId, radiusMeters);
-    return nearbyLocations.stream().map(this::maptoUserResponseDto).toList();
+    List<UserResponseDto> userResponseDtos =
+        nearbyLocations.stream().map(this::maptoUserResponseDto).toList();
+    return SuccessResponseDto.<List<UserResponseDto>>builder()
+        .message("Nearby users fetched successfully")
+        .status(200)
+        .data(userResponseDtos)
+        .build();
   }
 
   private UserResponseDto maptoUserResponseDto(NearbyUserLocation nearbyUserLocation) {
