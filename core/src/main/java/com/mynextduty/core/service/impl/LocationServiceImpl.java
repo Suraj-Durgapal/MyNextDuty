@@ -8,6 +8,7 @@ import com.mynextduty.core.entity.User;
 import com.mynextduty.core.entity.UserLocation;
 import com.mynextduty.core.exception.UserNotFoundException;
 import com.mynextduty.core.repository.UserLocationRepository;
+import com.mynextduty.core.repository.UserRepository;
 import com.mynextduty.core.service.CurrentUserService;
 import com.mynextduty.core.service.LocationService;
 import java.util.List;
@@ -27,18 +28,21 @@ public class LocationServiceImpl implements LocationService {
   private final UserLocationRepository userLocationRepository;
   private final GeometryFactory geometryFactory = new GeometryFactory();
   private final CurrentUserService currentUserService;
+  private final UserRepository userRepository;
 
   @Override
   @Transactional
   public SuccessResponseDto<UserResponseDto> updateUserLocation(
       Long userId, UpdateLocationRequestDto req) {
-    User user = currentUserService.getCurrentUser();
+//    User user = currentUserService.getCurrentUser();
     Point jtsPoint =
         geometryFactory.createPoint(new Coordinate(req.getLongitude(), req.getLatitude()));
+    User user = userRepository.getById(userId);
     UserLocation loc =
         userLocationRepository
             .findByUserId(user.getId())
             .orElse(UserLocation.builder().user(user).build());
+    loc.setUser(user);
     loc.setLocation(jtsPoint);
     userLocationRepository.save(loc);
     UserResponseDto userResponseDto = UserResponseDto.builder().build();

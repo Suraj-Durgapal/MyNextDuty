@@ -61,6 +61,7 @@ public class Duties {
   private String timeToComplete;
 
   @Column(nullable = false)
+  @Builder.Default
   private boolean isActive = true;
 
   // Many-to-Many with Interests

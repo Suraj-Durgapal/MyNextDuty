@@ -29,15 +29,16 @@ public class EducationLevel {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(unique = true, nullable = false)
+  @Column(unique = true, nullable = false,name = "level_code")
   private String levelCode;
 
-  @Column(nullable = false)
+  @Column(nullable = false,name = "level_name")
   private String levelName;
 
+  @Column(name = "level_rank")
   private Integer levelRank; // 1-10 for ordering
 
-  @Column(nullable = false)
+  @Column(nullable = false,name = "is_active")
   @Builder.Default
   private boolean isActive = true;
 
@@ -45,9 +46,10 @@ public class EducationLevel {
   private List<User> users;
 
   @Builder.Default
-  @Column(nullable = false)
+  @Column(nullable = false,name = "created_at")
   private LocalDateTime createdAt = LocalDateTime.now();
 
+  @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
   @PreUpdate

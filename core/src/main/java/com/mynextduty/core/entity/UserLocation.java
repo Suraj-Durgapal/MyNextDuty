@@ -42,6 +42,7 @@ public class UserLocation {
 
   /** Optional but useful: when was this location last updated? */
   @Column(nullable = false)
+  @Builder.Default
   private LocalDateTime createdAt = LocalDateTime.now();
 
   private LocalDateTime updatedAt;
