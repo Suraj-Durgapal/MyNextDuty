@@ -6,7 +6,6 @@ import com.mynextduty.core.dto.projection.NearbyUserLocation;
 import com.mynextduty.core.dto.user.UserResponseDto;
 import com.mynextduty.core.entity.User;
 import com.mynextduty.core.entity.UserLocation;
-import com.mynextduty.core.exception.UserNotFoundException;
 import com.mynextduty.core.repository.UserLocationRepository;
 import com.mynextduty.core.repository.UserRepository;
 import com.mynextduty.core.service.CurrentUserService;
@@ -17,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,15 +56,18 @@ public class LocationServiceImpl implements LocationService {
   @Override
   @Transactional
   public SuccessResponseDto<List<UserResponseDto>> getNearByUsers(Long userId) {
-    if (userId.equals(currentUserService.getCurrentUserId())) {
-      log.error("User not found with userId: {}", userId);
-      throw new UserNotFoundException("User not found.");
-    }
-    double radiusMeters = 5_000; // 5KM
+    //if (userId.equals(currentUserService.getCurrentUserId())) {
+      //log.error("User not found with userId: {}", userId);
+      //throw new UserNotFoundException("User not found.");
+    //}
+    double radiusMeters = 3_000; // 5KM
     List<NearbyUserLocation> nearbyLocations =
         userLocationRepository.findNearbyUserLocations(userId, radiusMeters);
     List<UserResponseDto> userResponseDtos =
-        nearbyLocations.stream().map(this::maptoUserResponseDto).toList();
+            nearbyLocations.stream()
+                    .map(n -> maptoUserResponseDto(n))
+                    .toList();
+
     return SuccessResponseDto.<List<UserResponseDto>>builder()
         .message("Nearby users fetched successfully")
         .status(200)
@@ -72,12 +75,21 @@ public class LocationServiceImpl implements LocationService {
         .build();
   }
 
-  private UserResponseDto maptoUserResponseDto(NearbyUserLocation nearbyUserLocation) {
-    Point point = nearbyUserLocation.getLocation();
-    return UserResponseDto.builder()
-        .id(nearbyUserLocation.getUserId())
-        .latitude(point.getY()) // latitude
-        .longitude(point.getX()) // longitude
-        .build();
+  private UserResponseDto maptoUserResponseDto(NearbyUserLocation n) {
+    try {
+      Point p = (Point) new WKTReader().read(n.getLocation());
+
+      return UserResponseDto.builder()
+              .id(n.getUserId())
+              .firstName(n.getFirstname())
+              .lastName(n.getLastname())
+              .email(n.getEmail())
+              .latitude(p.getY())
+              .longitude(p.getX())
+              .build();
+
+    } catch (Exception e) {
+      throw new RuntimeException("Invalid geometry", e);
+    }
   }
 }

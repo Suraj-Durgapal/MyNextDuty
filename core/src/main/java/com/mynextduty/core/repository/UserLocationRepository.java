@@ -14,20 +14,26 @@ import org.springframework.stereotype.Repository;
 public interface UserLocationRepository extends JpaRepository<UserLocation, Long> {
 
   @Query(
-      value =
-          """
-        SELECT ul.user_id as userId, ul.location
-        FROM user_locations ul
-        WHERE ul.user_id <> :userId
-          AND ST_DWithin(
-              ul.location,
-              (SELECT location FROM user_locations WHERE user_id = :userId),
-              :radiusMeters
-          )
-        """,
-      nativeQuery = true)
+          value = """
+    SELECT u.id as userId,
+           u.first_name as firstname,
+           u.last_name as lastname,
+           u.email as email,
+           ST_AsText(ul.location) as location
+    FROM user_locations ul
+    JOIN users u ON u.id = ul.user_id
+    WHERE ul.user_id <> :userId
+      AND ST_DWithin(
+          ul.location,
+          (SELECT location FROM user_locations WHERE user_id = :userId),
+          :radiusMeters
+      )
+    """,
+          nativeQuery = true)
   List<NearbyUserLocation> findNearbyUserLocations(
-      @Param("userId") Long userId, @Param("radiusMeters") double radiusMeters);
+          @Param("userId") Long userId,
+          @Param("radiusMeters") double radiusMeters);
+
 
   @Query(
       value =
