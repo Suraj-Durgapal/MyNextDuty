@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../components/common/Button";
 import InputField from "../components/common/InputField";
 import formConfig from "../config/formConfig";
@@ -10,11 +10,21 @@ import "./AuthPage.css";
 
 export const AuthPage = () => {
   const [mode, setMode] = useState("login");
-  const [values, setValues] = useState({ email: "", password: "" });
+  const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
 
   const { login, signup, loading, error } = useAuth();
   const fields = formConfig[mode].fields;
+
+  /* 🔹 Initialize form values whenever mode changes */
+  useEffect(() => {
+    const initialValues = {};
+    fields.forEach((field) => {
+      initialValues[field.name] = "";
+    });
+    setValues(initialValues);
+    setErrors({});
+  }, [mode]);
 
   const handleChange = (name, value) => {
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -23,17 +33,23 @@ export const AuthPage = () => {
 
   const validateForm = () => {
     const newErrors = {};
+
     fields.forEach((field) => {
       const value = values[field.name] || "";
+
       if (field.required && !value) {
         newErrors[field.name] = `${field.label} is required`;
         return;
       }
+
       if (field.validation) {
         const result = field.validation(value, values);
-        if (result !== true) newErrors[field.name] = result;
+        if (result !== true) {
+          newErrors[field.name] = result;
+        }
       }
     });
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -41,22 +57,26 @@ export const AuthPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-    mode === "login" ? await login(values) : await signup(values);
+
+    if (mode === "login") {
+      await login(values);
+    } else {
+      // ❌ backend does NOT need confirmPassword
+      const { confirmPassword, ...signupPayload } = values;
+      await signup(signupPayload);
+    }
   };
 
   return (
     <div className="auth-page">
-
-      {/* ===== OUTSIDE CARD ===== */}
+      {/* ===== HEADER ===== */}
       <div className="auth-header">
         <div className="auth-logo-text">
-          <img src={ logo } alt="MyNextDuty Logo" />
+          <img src={logo} alt="MyNextDuty Logo" />
         </div>
-        
         <p className="auth-subtitle">
-            Find clarity in your <span>next step</span>
+          Find clarity in your <span>next step</span>
         </p>
-
       </div>
 
       {/* ===== FORM CARD ===== */}
@@ -64,9 +84,8 @@ export const AuthPage = () => {
         <h2 className="auth-heading">
           {mode === "login" ? "Welcome back" : "Create your account"}
         </h2>
-        
-        <form onSubmit={handleSubmit} className="auth-form">
 
+        <form onSubmit={handleSubmit} className="auth-form">
           {fields.map((field) => (
             <InputField
               key={field.name}
@@ -84,7 +103,13 @@ export const AuthPage = () => {
           )}
 
           <Button type="submit" disabled={loading}>
-            {loading ? <Loader size="sm" /> : mode === "login" ? "Log In" : "Create Account"}
+            {loading ? (
+              <Loader size="sm" />
+            ) : mode === "login" ? (
+              "Log In"
+            ) : (
+              "Create Account"
+            )}
           </Button>
 
           {error && <p className="auth-error">{error}</p>}
@@ -102,7 +127,6 @@ export const AuthPage = () => {
               </button>
             )}
           </div>
-
         </form>
       </div>
     </div>

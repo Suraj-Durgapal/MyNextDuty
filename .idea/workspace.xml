@@ -5,16 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d846c3aa-7016-4890-8164-14f53c6652b4" name="Changes" comment="Update logic for getUsernearBy">
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/dto/NotificationRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/entity/EmailVerificationToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/enums/NotificationType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/enums/TemplateType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/repository/EmailVerificationTokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/EmailVerificationCleanupService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/NotificationChannel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/NotificationFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/NotificationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/TokenService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/UserAccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/VerificationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/impl/EmailNotification.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/impl/TokenServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/impl/VerificationServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/resources/templates/email/email-verification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/core/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/core/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/CoreApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/CoreApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/config/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/config/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/controller/AuthController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/controller/UserAccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/controller/UserAccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/dto/GlobalMessageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/dto/GlobalMessageDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/dto/SuccessResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/dto/SuccessResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/impl/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/impl/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/impl/UserAccountService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/impl/UserAccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/service/impl/UserAccountServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/mynextduty/core/utils/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lens/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/lens/.env.development" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lens/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/lens/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/resources/keys/private_key.pem" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/resources/keys/private_key.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/resources/keys/public_key.pem" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/resources/keys/public_key.pem" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lens/src/api/apiUrls.js" beforeDir="false" afterPath="$PROJECT_DIR$/lens/src/api/apiUrls.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lens/src/api/axiosInstance.js" beforeDir="false" afterPath="$PROJECT_DIR$/lens/src/api/axiosInstance.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lens/src/routes/RouteConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/lens/src/routes/RouteConfig.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lens/src/service/location.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/lens/src/service/location.service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -3,6 +3,8 @@ server:
   timezone: ${SERVER_TIMEZONE:IST}
   servlet:
     context-path: /core
+  error:
+    include-stacktrace: never
 
 spring:
   application:
@@ -32,6 +34,18 @@ spring:
     connection-timeout: 20000
     max-lifetime: 1800000
 
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_HOST_EMAIL:}
+    password: ${MAIL_HOST_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 # Logging
 logging:
   level:
@@ -50,3 +64,7 @@ core:
     secret: ${JWT_SECRET:}
     refresh:
       expiration: ${JWT_REFRESH_EXPIRATION:259200}
+  baseUrl: ${CORE_BASE_URL:http://localhost:8080/core}
+  email:
+    verification:
+     tokenExpiryMinutes: ${EMAIL_VERIFICATION_TOKEN_EXPIRY_MINUTES:15}

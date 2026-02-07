@@ -40,6 +40,21 @@ const formConfig = {
         validation: (value) => value.length >= 3 || 'Username must be at least 3 characters long.',
       },
       {
+        name: 'firstName',
+        label: 'First Name',
+        type: 'text',
+        placeholder: 'Enter your first name',
+        required: true,
+        
+      },
+      {
+        name: 'lastName',
+        label: 'Last Name',
+        type: 'text',
+        placeholder: 'Enter your last name',
+        required: false,
+       },
+      {
         name: 'password',
         label: 'Password',
         type: 'password',

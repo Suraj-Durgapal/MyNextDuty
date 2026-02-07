@@ -7,10 +7,10 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 @SpringBootApplication
 public class CoreApplication {
-
   public static void main(String[] args) {
     SpringApplication.run(CoreApplication.class, args);
   }
+
 
 //    @Bean
 //    public CommandLineRunner setLocationRunner(LocationService locationService) {
@@ -22,4 +22,5 @@ public class CoreApplication {
 //            locationService.getNearByUsers(2L);
 //        };
 //    }
+
 }

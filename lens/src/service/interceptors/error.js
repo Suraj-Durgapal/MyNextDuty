@@ -1,6 +1,6 @@
 import axios from "axios";
 import { navigate } from "../navigation.service";
-import { persistor } from "../../redux/store";
+import { persistor } from "../../page/redux/store";
 import { CORE_BASE_URL, API_URLS } from "../../api/apiUrls";
 import { setToken } from "../../util/tokenService";
 

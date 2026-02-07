@@ -14,8 +14,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Builder
 @JsonInclude(NON_NULL)
 public class SuccessResponseDto<T> implements ResponseDto<T> {
-  private String message = "Request processed successfully.";
-  private Integer status = 200;
+  @Builder.Default private String message = "Request processed successfully.";
+  @Builder.Default private Integer status = 200;
   private T data;
 
   @Override
@@ -50,5 +50,13 @@ public class SuccessResponseDto<T> implements ResponseDto<T> {
 
   public SuccessResponseDto(T data) {
     this.data = data;
+    this.status = 200;
+    this.message = "Request processed successfully.";
+  }
+
+  public SuccessResponseDto(T data, Integer status) {
+    this.data = data;
+    this.status = status;
+    this.message = "Request processed successfully.";
   }
 }
