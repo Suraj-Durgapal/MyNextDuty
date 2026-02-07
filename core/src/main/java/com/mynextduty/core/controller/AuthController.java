@@ -5,9 +5,11 @@ import com.mynextduty.core.dto.ResponseDto;
 import com.mynextduty.core.dto.SuccessResponseDto;
 import com.mynextduty.core.dto.auth.AuthRequestDto;
 import com.mynextduty.core.dto.auth.AuthResponseDto;
+import com.mynextduty.core.dto.user.UserRegisterRequestDto;
 import com.mynextduty.core.entity.User;
 import com.mynextduty.core.service.AuthService;
 import com.mynextduty.core.service.CurrentUserService;
+import com.mynextduty.core.service.UserAccountService;
 import com.mynextduty.core.service.VerificationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,6 +29,7 @@ public class AuthController {
   private final AuthService authService;
   private final VerificationService verificationService;
   private final CurrentUserService currentUserService;
+  private final UserAccountService userAccountService;
 
   @GetMapping("/public-key")
   public ResponseDto<String> publicKey() {
@@ -40,8 +43,9 @@ public class AuthController {
   }
 
   @GetMapping("/refresh")
-  public ResponseDto<AuthResponseDto> refreshToken(HttpServletRequest request, HttpServletResponse httpServletResponse) {
-    return new SuccessResponseDto<>(authService.refreshToken(request,httpServletResponse));
+  public ResponseDto<AuthResponseDto> refreshToken(
+      HttpServletRequest request, HttpServletResponse httpServletResponse) {
+    return new SuccessResponseDto<>(authService.refreshToken(request, httpServletResponse));
   }
 
   @PostMapping("/logout")
@@ -50,8 +54,7 @@ public class AuthController {
   }
 
   /**
-   * FLOW C: Verify email using token from email link
-   * Public endpoint - no authentication required
+   * FLOW C: Verify email using token from email link Public endpoint - no authentication required
    */
   @GetMapping("/verify-email")
   public ResponseDto<GlobalMessageDto> verifyEmail(@RequestParam String token) {
@@ -59,14 +62,17 @@ public class AuthController {
     return new SuccessResponseDto<>(result);
   }
 
-  /**
-   * FLOW B: Resend verification email for logged-in user
-   * Requires authentication
-   */
+  /** FLOW B: Resend verification email for logged-in user Requires authentication */
   @PostMapping("/resend-verification")
   public ResponseDto<GlobalMessageDto> resendVerification() {
     User currentUser = currentUserService.getCurrentUser();
     GlobalMessageDto result = verificationService.resendVerification(currentUser);
     return new SuccessResponseDto<>(result);
+  }
+
+  @PostMapping("/register")
+  public ResponseDto<GlobalMessageDto> register(
+      @Valid @RequestBody UserRegisterRequestDto registerDto, HttpServletResponse response) {
+    return new SuccessResponseDto<>(userAccountService.register(registerDto, response));
   }
 }

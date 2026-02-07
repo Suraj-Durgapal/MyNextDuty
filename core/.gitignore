@@ -11,6 +11,8 @@ docker-compose.yml
 /docker-compose.yml
 application.yml
 application.yaml
+public_key.pem
+private_key.pem
 /db/
 /db
 db

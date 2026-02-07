@@ -50,5 +50,13 @@ public class SuccessResponseDto<T> implements ResponseDto<T> {
 
   public SuccessResponseDto(T data) {
     this.data = data;
+    this.status = 200;
+    this.message = "Request processed successfully.";
+  }
+
+  public SuccessResponseDto(T data, Integer status) {
+    this.data = data;
+    this.status = status;
+    this.message = "Request processed successfully.";
   }
 }

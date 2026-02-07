@@ -3,6 +3,8 @@ server:
   timezone: ${SERVER_TIMEZONE:IST}
   servlet:
     context-path: /core
+  error:
+    include-stacktrace: never
 
 spring:
   application:
