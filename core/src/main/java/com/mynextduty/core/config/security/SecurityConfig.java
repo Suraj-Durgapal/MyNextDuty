@@ -50,9 +50,11 @@ public class SecurityConfig {
         .authorizeHttpRequests(
             auth ->
                 auth.requestMatchers(HttpMethod.OPTIONS, "/**")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated())
+                        .permitAll()
+                        .requestMatchers("/auth/**")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authenticationProvider(authenticationProvider())
@@ -105,8 +107,6 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     var config = new CorsConfiguration();
-    System.out.println("🔥 CORS CONFIG LOADED");
-    //config.addAllowedOrigin("*");//http://localhost:5173/
     config.setAllowedOrigins(List.of("http://localhost:5173"));
     config.addAllowedHeader("*");
     config.addAllowedMethod(HttpMethod.PUT);
