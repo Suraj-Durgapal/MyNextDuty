@@ -28,6 +28,7 @@ reportname.html
 
 # misc
 /.idea
+.idea/
 .DS_Store
 .env.local
 .env.development.local
@@ -45,6 +46,7 @@ yarn-error.log*
 .vscode/*
 !.vscode/extensions.json
 .idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
